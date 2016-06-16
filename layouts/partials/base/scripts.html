@@ -32,10 +32,20 @@
 
 {{ with .Site.Params.googleAnalytics }}
 <script>
-  var _gaq=[['_setAccount','{{ . }}'],['_trackPageview']];
-  (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-  g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-  s.parentNode.insertBefore(g,s)}(document,'script'));
+    var _gaq = [['_setAccount', '{{ . }}'], ['_trackPageview']];
+    var canonical_link;
+    try {
+        canonical_link = jQuery('link[rel=canonical]').attr('href').split(location.hostname)[1] || undefined;
+    }
+    catch (e) {
+        canonical_link = undefined;
+    }
+    _gaq.push(['_trackPageview', canonical_link]);
+    (function (d, t) {
+        var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
+        g.src = ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js';
+        s.parentNode.insertBefore(g, s)
+    }(document, 'script'));
 </script>
 {{ end }}
 <script>
